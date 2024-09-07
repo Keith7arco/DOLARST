@@ -63,5 +63,8 @@ async function verificar_dolar() {
   }
 }
 
-// Ejecutar la función
-verificar_dolar();
+// Exporta la función para que Vercel pueda invocarla
+module.exports = async (req, res) => {
+  await verificarDolar();
+  res.status(200).send('Proceso completado.');
+};

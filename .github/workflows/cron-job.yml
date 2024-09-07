@@ -1,0 +1,14 @@
+name: Cron Job
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Ejecuta todos los días a las 9 AM UTC
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Make HTTP Request
+        run: |
+          curl -X GET https://dolarst.vercel.app/api/verificarDolar

@@ -12,7 +12,7 @@ const TWILIO_WHATSAPP_NUMBER = process.env.TWILIO_WHATSAPP_NUMBER;
 const DESTINATION_WHATSAPP_NUMBER = process.env.DESTINATION_WHATSAPP_NUMBER;
 
 // Umbral del valor del dólar
-const DOLLAR_THRESHOLD = 3.90;
+const DOLLAR_THRESHOLD = 3.70;
 
 // API de BCRP para obtener el tipo de cambio del dólar
 const BCRP_API_URL_DOL = 'https://estadisticas.bcrp.gob.pe/estadisticas/series/api/PD04637PD/json';

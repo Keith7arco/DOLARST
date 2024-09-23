@@ -1,15 +1,12 @@
 const axios = require('axios');
-const twilio = require('twilio');
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 
 // Configuración de Twilio
-const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
-const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
-const TWILIO_WHATSAPP_NUMBER = process.env.TWILIO_WHATSAPP_NUMBER;
-const DESTINATION_WHATSAPP_NUMBER = process.env.DESTINATION_WHATSAPP_NUMBER;
+const TELEGRAM_BOT_TOKEN  = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID  = process.env.TELEGRAM_CHAT_ID;
 
 // Umbral del valor del dólar
-const DOLLAR_THRESHOLD = 3.70;
+const DOLLAR_THRESHOLD = 3.72;
 
 // API de BCRP para obtener el tipo de cambio del dólar
 const BCRP_API_URL_DOL = 'https://estadisticas.bcrp.gob.pe/estadisticas/series/api/PD04637PD/json';
@@ -28,17 +25,16 @@ async function obtenerTipoCambio() {
   return null;
 }
 
-async function enviarMensajeWhatsApp(mensaje) {
-  const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+async function enviarMensajeTelegram(mensaje) {
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
   try {
-    const message = await client.messages.create({
-      body: mensaje,
-      from: TWILIO_WHATSAPP_NUMBER,
-      to: DESTINATION_WHATSAPP_NUMBER
+    const response = await axios.post(url,{
+      chat_id: TELEGRAM_CHAT_ID,
+      text: mensaje
     });
-    console.log(`Mensaje enviado: ${message.sid}`);
+    console.log(`Mensaje enviado: ${response.data.result.text}`);
   } catch (error) {
-    console.error('Error al enviar el mensaje de WhatsApp:', error);
+    console.error('Error al enviar el mensaje de Telegram:', error);
   }
 }
 
@@ -47,9 +43,9 @@ async function verificarDolar() {
     const tipoCambio = await obtenerTipoCambio();
     if (tipoCambio !== null) {
       console.log(`El tipo de cambio actual es: ${tipoCambio}`);
-      if (tipoCambio < DOLLAR_THRESHOLD) {
+      if (tipoCambio <= DOLLAR_THRESHOLD) {
         const mensaje = `Alerta: El dólar ha bajado a ${tipoCambio}.`;
-        await enviarMensajeWhatsApp(mensaje);
+        await enviarMensajeTelegram(mensaje);
       } else {
         console.log('El dólar aún no ha bajado lo suficiente.');
       }

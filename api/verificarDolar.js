@@ -6,7 +6,7 @@ const TELEGRAM_BOT_TOKEN  = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID  = process.env.TELEGRAM_CHAT_ID;
 
 // Umbral del valor del dólar
-const DOLLAR_THRESHOLD = 3.80;
+const DOLLAR_THRESHOLD = 3.72;
 
 // API de BCRP para obtener el tipo de cambio del dólar
 const BCRP_API_URL_DOL = 'https://estadisticas.bcrp.gob.pe/estadisticas/series/api/PD04637PD/json';

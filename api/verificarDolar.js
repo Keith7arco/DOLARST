@@ -48,6 +48,7 @@ async function verificarDolar() {
         await enviarMensajeTelegram(mensaje);
       } else {
         console.log('El dólar aún no ha bajado lo suficiente.');
+        await enviarMensajeTelegram(mensaje);
       }
     } else {
       console.log('Error al obtener el tipo de cambio.');

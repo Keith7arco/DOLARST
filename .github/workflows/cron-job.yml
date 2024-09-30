@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: Make HTTP Request
         run: |
-          curl -X GET https://dolarst.vercel.app/api/verificarDolar
+          curl --max-time 10 -X GET https://dolarst.vercel.app/api/verificarDolar
